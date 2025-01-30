@@ -12,8 +12,6 @@ class Visit extends Model
         'user_id',
         'date',
         'time',
-        'start_at',
-        'end_at',
     ];
 
     public function user(){
