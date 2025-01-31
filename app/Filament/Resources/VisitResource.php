@@ -43,7 +43,7 @@ class VisitResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('user.last_name')->label('User'),
-                TextColumn::make('time')->label('Time')->formatStateUsing(fn($state) => Carbon::parse($state)->translatedFormat('H:m')),
+                TextColumn::make('time')->label('Time')->formatStateUsing(fn ($state) => date('H:i', strtotime($state))),
                 TextColumn::make('date')->formatStateUsing(fn($state) => Carbon::parse($state)->translatedFormat('j F l')),
             ])
             ->filters([
@@ -58,7 +58,7 @@ class VisitResource extends Resource
                                 ->afterStateUpdated(function ($state) {
                                     $user = User::find($state);
                                 }),
-                            DatePicker::make('date'),
+                            DatePicker::make('date')->minDate(now()->subDays(1))->native(false)->displayFormat('d F Y'),
                            TimePicker::make('time')->native(false)->seconds(false)->minutesStep(30)
                         ])
                 ]),
