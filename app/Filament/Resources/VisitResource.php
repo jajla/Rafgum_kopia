@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
@@ -52,13 +53,13 @@ class VisitResource extends Resource
                 Tables\Actions\EditAction::make()->form([
                     Fieldset::make('Visit')
                         ->schema([
+                            Select::make('user_id')
+                                ->options(User::query()->get()->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
+                                ->afterStateUpdated(function ($state) {
+                                    $user = User::find($state);
+                                }),
                             DatePicker::make('date'),
-                            TimePicker::make('time'),
-                            TextInput::make('user_id')
-                                ->formatStateUsing(function ($state) {
-                            $user = User::find($state);
-                            return $user ? $user->last_name : '';
-                        })
+                           TimePicker::make('time')->native(false)->seconds(false)->minutesStep(30)
                         ])
                 ]),
                 Tables\Actions\DeleteAction::make(),

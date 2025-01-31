@@ -19,8 +19,8 @@ class VisitFactory extends Factory
     {
         return [
             'user_id'=>User::factory(),
-            'date'=>now(),
-            'time'=>now(),
+            'date'=> fake()->date(),
+            'time'=>fake()->time(),
         ];
     }
 }
