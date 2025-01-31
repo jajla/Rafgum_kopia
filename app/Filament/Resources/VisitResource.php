@@ -30,14 +30,27 @@ class VisitResource extends Resource
 {
     protected static ?string $model = Visit::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                DatePicker::make('date')->label('Date'),
-                TimePicker::make('time')->label('time'),
+                Select::make('user_id')
+                    ->native(false)
+                    ->options(User::query()
+                        ->get()
+                        ->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
+                    ->required(),
+                DatePicker::make('date')
+                    ->minDate(now()->subDays(1))
+                    ->displayFormat('d F Y')
+                    ->required(),
+                TimePicker::make('time')
+                    ->native(false)
+                    ->minutesStep(30)
+                    ->seconds(false)
+                    ->required(),
             ]);
     }
 
@@ -46,9 +59,19 @@ class VisitResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.last_name')->label('User'),
-                TextColumn::make('time')->label('Time')->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
-                TextColumn::make('date')->formatStateUsing(fn($state) => Carbon::parse($state)->translatedFormat('j F l')),
+                TextColumn::make('user.last_name')
+                    ->label('User')
+                    ->searchable()
+                    ->alignCenter(),
+                TextColumn::make('time')
+                    ->label('Time')
+                    ->alignCenter()
+                    ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
+                TextColumn::make('date')
+                    ->label('Date')
+                    ->alignCenter()
+                    ->formatStateUsing(fn($state) => Carbon::parse($state)
+                        ->translatedFormat('j F l')),
             ])
             ->filters([
                 //
@@ -56,71 +79,35 @@ class VisitResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->form([
-                        Section::make('podawanie danych')
+                        Section::make()
                             ->schema([
                                 Grid::make([
-                                    'sm' => 2,
-                                    'md' => 3,
-                                    'lg' => 2,
-                                    'xl' => 2,
+                                    'sm' => 1,
+                                    'md' => 2,
+                                    'lg' => 3,
+                                    'xl' => 3,
                                     '2xl' => 2,
                                 ])
                                     ->schema([
-                                        TextInput::make('name')
-                                            ->label('Imię')
-                                            ->required(),
-
                                         Select::make('user_id')
                                             ->native(false)
-                                            ->options(User::query()->get()->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
-                                            ->label('Wybierz użytkownika')
+                                            ->options(User::query()
+                                                ->get()
+                                                ->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
+                                            ->required(),
+                                        DatePicker::make('date')
+                                            ->minDate(now()->subDays(1))
+                                            ->displayFormat('d F Y')
+                                            ->required(),
+                                        TimePicker::make('time')
+                                            ->native(false)
+                                            ->minutesStep(30)
+                                            ->seconds(false)
                                             ->required(),
                                     ]),
-                            ]),
-                        Section::make('data i czas')
-                            ->schema([
-                                Grid::make([
-                                    'sm' => 2,       // Na małych ekranach 2 kolumny
-                                    'md' => 2,       // Na średnich ekranach 2 kolumny
-                                    'lg' => 2,       // Na dużych ekranach 2 kolumny
-                                    'xl' => 2,       // Na bardzo dużych ekranach 3 kolumny
-                                    '2xl' => 2,      // Na ekranach 2xl 4 kolumny
-                                ])
-                                ->schema([
-                                    DatePicker::make('date')
-                                        ->label('Data')
-                                        ->minDate(now()->subDays(1))
-                                        ->displayFormat('d F Y')
-                                        ->required(),
 
-                                    TimePicker::make('time')
-                                        ->label('Czas')
-                                        ->minutesStep(30)
-                                        ->seconds(false)
-                                        ->required(),
-                                ])
                             ]),
                     ]),
-
-                /* Section::make([
-                     Select::make('user_id')
-                         ->native(false)
-                         ->options(User::query()->get()->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
-                         ->afterStateUpdated(function ($state) {
-                             $user = User::find($state);
-                         }),
-                 ]), tu sie konczy 1 section*/
-                /* Section::make([
-                     DatePicker::make('date')
-                         ->minDate(now()->subDays(1))->native(false)
-                         ->displayFormat('d F Y'),
-
-                     TimePicker::make('time')->native(false)
-                         ->seconds(false)
-                         ->minutesStep(30)
-
-                 ]) tu sie konczy 2 section*/
-
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
