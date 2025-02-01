@@ -12,7 +12,10 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -41,13 +44,24 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Textcolumn::make('first_name')->searchable()->sortable(), // Changed from 'name' to 'first_name'
-                Textcolumn::make('last_name'),
-                Textcolumn::make('email'),
-                Textcolumn::make('phone_number')->formatStateUsing(function ($state) {
-                    return preg_replace('/(\d{3})(\d{3})(\d{3})/', '$1-$2-$3', $state);
-                }),
-                Textcolumn::make('role')->formatStateUsing(fn($state) => $state->getLabel()) //label z role enum
+                Split::make([
+                    Textcolumn::make('first_name')
+                        ->searchable()
+                        ->alignCenter(),
+                    Textcolumn::make('last_name')
+                        ->alignCenter(),
+                    Textcolumn::make('email')
+                        ->alignCenter(),
+                    Textcolumn::make('phone_number')
+                            ->formatStateUsing(function ($state) {
+                                return preg_replace('/(\d{3})(\d{3})(\d{3})/', '$1-$2-$3', $state);
+                            })->alignCenter(),
+                    Textcolumn::make('role')
+                        ->formatStateUsing(fn($state) => $state->getLabel())
+                        ->alignCenter()
+
+                    //label z role enum
+                ])->from('xl'),
             ])
             ->filters([
                 //
@@ -70,12 +84,12 @@ class UserResource extends Resource
                         ])->columns(3),
                 ]),
                 Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+        /* ->bulkActions([
+             Tables\Actions\BulkActionGroup::make([
+                 Tables\Actions\DeleteBulkAction::make(),
+             ]),
+         ]);*/
     }
 
     public static function getPages(): array
