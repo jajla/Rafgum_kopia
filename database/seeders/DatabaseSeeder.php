@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Visit;
 use Database\Factories\VisitFactory;
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'k@gmail',
             'password' => Hash::make('1234'),
         ]);
-         User::factory(40)->create();
-         Visit::factory(40)->create();
+        User::factory(40)->create();
+        Visit::factory(40)->create();
     }
 }
