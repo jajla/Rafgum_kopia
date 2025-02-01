@@ -14,13 +14,14 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
+use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,24 +55,26 @@ class VisitResource extends Resource
             ]);
     }
 
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('user.last_name')
-                    ->label('User')
-                    ->searchable()
-                    ->alignCenter(),
-                TextColumn::make('time')
-                    ->label('Time')
-                    ->alignCenter()
-                    ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
-                TextColumn::make('date')
-                    ->label('Date')
-                    ->alignCenter()
-                    ->formatStateUsing(fn($state) => Carbon::parse($state)
-                        ->translatedFormat('j F l')),
+
+                Split::make([
+                        TextColumn::make('user.last_name')
+                            ->label('User')
+                            ->searchable()
+                            ->alignCenter(),
+                        TextColumn::make('time')
+                            ->label('Time')
+                            ->alignCenter()
+                            ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
+                        TextColumn::make('date')
+                            ->label('Date')
+                            ->alignCenter()
+                            ->formatStateUsing(fn($state) => Carbon::parse($state)
+                                ->translatedFormat('j F l')),
+                ])->from('sm')
             ])
             ->filters([
                 //
@@ -109,12 +112,12 @@ class VisitResource extends Resource
                             ]),
                     ]),
                 Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
+        /*->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);*/
     }
 
     public static function getPages(): array
