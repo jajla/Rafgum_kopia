@@ -32,7 +32,10 @@ class VisitResource extends Resource
     protected static ?string $model = Visit::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
-
+    public static function getPluralLabel(): string
+    {
+        return __('trans.resources.visits'); // "Użytkownik"
+    }
     public static function form(Form $form): Form
     {
         return $form
