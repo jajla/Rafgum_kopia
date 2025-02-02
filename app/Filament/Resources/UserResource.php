@@ -8,6 +8,8 @@ use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -31,30 +33,38 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('first_name')->label('first_name')
-                    ->required()
-                    ->alpha()
-                    ->autofocus(),
-                TextInput::make('last_name')->label('last_name')
-                    ->required()
-                    ->alpha(),
-                TextInput::make('email')->label('email')
-                    ->required()
-                    ->email()
-                    ->unique(User::class),
-                TextInput::make('phone_number')->label('phone_number')
-                    ->required()
-                    ->minValue(9)
-                    ->integer(),
-                Select::make('role')
-                    ->options(
-                        collect(Role::cases())
-                            ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
-                            ->toArray()
-                    ),
-                TextInput::make('password')->label('password')
-                    ->required()
-                    ->password(),
+                Grid::make([
+                    'md' => 3,
+                    'lg' => 3,
+                    'xl' => 3,
+                    '2xl' => 3,
+                ])->schema([
+                    TextInput::make('first_name')->label('first_name')
+                        ->required()
+                        ->alpha()
+                        ->autofocus(),
+                    TextInput::make('last_name')->label('last_name')
+                        ->required()
+                        ->alpha(),
+                    TextInput::make('email')->label('email')
+                        ->required()
+                        ->email()
+                        ->unique(User::class),
+                    TextInput::make('phone_number')->label('phone_number')
+                        ->required()
+                        ->minValue(9)
+                        ->integer(),
+                    Select::make('role')
+                        ->options(
+                            collect(Role::cases())
+                                ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
+                                ->toArray()
+                        ),
+                    TextInput::make('password')->label('password')
+                        ->required()
+                        ->password(),
+                ]),
+
             ]);
     }
 
