@@ -31,12 +31,20 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('first_name')->label('first_name'), // Changed from 'name' to 'first_name'
-                TextInput::make('last_name')->label('last_name'),
-                TextInput::make('email')->label('email'),
-                TextInput::make('phone_number')->label('phone_number'),
-                TextInput::make('role')->label('role'),
-                TextInput::make('password')->label('password'),
+                TextInput::make('first_name')->label('first_name')
+            ->required(),
+                TextInput::make('last_name')->label('last_name')
+            ->required(),
+                TextInput::make('email')->label('email')
+                ->required(),
+                TextInput::make('phone_number')->label('phone_number')
+                ->required()
+                ->minValue(9)
+                ->integer(),
+                TextInput::make('role')->label('role')
+                ->required(),
+                TextInput::make('password')->label('password')
+                ->required(),
             ]);
     }
 
