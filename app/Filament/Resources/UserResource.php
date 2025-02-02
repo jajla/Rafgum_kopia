@@ -32,19 +32,29 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('first_name')->label('first_name')
-            ->required(),
+                    ->required()
+                    ->alpha()
+                    ->autofocus(),
                 TextInput::make('last_name')->label('last_name')
-            ->required(),
+                    ->required()
+                    ->alpha(),
                 TextInput::make('email')->label('email')
-                ->required(),
+                    ->required()
+                    ->email()
+                    ->unique(User::class),
                 TextInput::make('phone_number')->label('phone_number')
-                ->required()
-                ->minValue(9)
-                ->integer(),
-                TextInput::make('role')->label('role')
-                ->required(),
+                    ->required()
+                    ->minValue(9)
+                    ->integer(),
+                Select::make('role')
+                    ->options(
+                        collect(Role::cases())
+                            ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
+                            ->toArray()
+                    ),
                 TextInput::make('password')->label('password')
-                ->required(),
+                    ->required()
+                    ->password(),
             ]);
     }
 
@@ -61,9 +71,9 @@ class UserResource extends Resource
                     Textcolumn::make('email')
                         ->alignCenter(),
                     Textcolumn::make('phone_number')
-                            ->formatStateUsing(function ($state) {
-                                return preg_replace('/(\d{3})(\d{3})(\d{3})/', '$1-$2-$3', $state);
-                            })->alignCenter(),
+                        ->formatStateUsing(function ($state) {
+                            return preg_replace('/(\d{3})(\d{3})(\d{3})/', '$1-$2-$3', $state);
+                        })->alignCenter(),
                     Textcolumn::make('role')
                         ->formatStateUsing(fn($state) => $state->getLabel())
                         ->alignCenter()
@@ -93,11 +103,6 @@ class UserResource extends Resource
                 ]),
                 Tables\Actions\DeleteAction::make(),
             ]);
-        /* ->bulkActions([
-             Tables\Actions\BulkActionGroup::make([
-                 Tables\Actions\DeleteBulkAction::make(),
-             ]),
-         ]);*/
     }
 
     public static function getPages(): array
