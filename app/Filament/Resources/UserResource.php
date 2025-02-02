@@ -30,7 +30,7 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     public static function getPluralLabel(): string
     {
-        return __('trans.resources.users'); // "Użytkownik"
+        return __('trans.resources.users');
     }
 
 

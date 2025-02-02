@@ -2,7 +2,7 @@
 
 return [
 
-    'label' => 'Profil',
+    'label' => 'ustawienia konta',
 
     'form' => [
 
@@ -10,8 +10,11 @@ return [
             'label' => 'Adres e-mail',
         ],
 
-        'name' => [
-            'label' => 'Nazwa',
+        'first_name' => [
+            'label' => 'Imie',
+        ],
+        'last_name' => [
+            'label' => 'Nazwisko',
         ],
 
         'password' => [

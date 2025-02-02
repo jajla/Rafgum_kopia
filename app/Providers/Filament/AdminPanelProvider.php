@@ -27,6 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->registration()
+            ->profile()
+            ->passwordReset()
             ->login()
             ->colors([
                 'primary' => Color::Amber,
@@ -56,4 +58,5 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
 }
