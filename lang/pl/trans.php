@@ -4,4 +4,5 @@ return [
         'users' => 'klienci',
         'visits' => 'zapisy',
     ],
+   // 'Hello!' => 'Witaj!',
 ];
