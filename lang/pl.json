@@ -1,3 +1,7 @@
 {
-    "Hello!": "witaj"
+    "Hello! :first_name": "witaj :first_name",
+    "You are receiving this email because we received a password reset request for your account.": "Otrzymujesz tego e-maila, ponieważ otrzymaliśmy prośbę o zresetowanie hasła do Twojego konta",
+    "Reset Password": "Zresetuj hasło",
+    "This password reset link will expire in :count minutes.": "Link do resetowania hasła wygaśnie za :count minut.",
+    "If you did not request a password reset, no further action is required.": "Jeśli nie poprosiłeś o zresetowanie hasła, nie są wymagane żadne dalsze działania."
 }
