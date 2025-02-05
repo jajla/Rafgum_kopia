@@ -18,7 +18,7 @@ class VisitFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id'=>User::factory(),
+            'user_id'=>User::InRandomOrder()->first()->id,
             'date'=> fake()->date(),
             'time'=>fake()->time(),
         ];
