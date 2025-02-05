@@ -28,6 +28,7 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
     public static function getPluralLabel(): string
     {
         return __('trans.resources.users');
@@ -44,28 +45,34 @@ class UserResource extends Resource
                     'xl' => 3,
                     '2xl' => 3,
                 ])->schema([
-                    TextInput::make('first_name')->label('first_name')
+                    TextInput::make('first_name')
+                        ->label(__('trans.form.first_name'))
                         ->required()
                         ->alpha()
                         ->autofocus(),
-                    TextInput::make('last_name')->label('last_name')
+                    TextInput::make('last_name')
+                        ->label(__('trans.form.last_name'))
                         ->required()
                         ->alpha(),
-                    TextInput::make('email')->label('email')
+                    TextInput::make('email')
+                        ->label(__('trans.form.email'))
                         ->required()
                         ->email()
                         ->unique(User::class),
-                    TextInput::make('phone_number')->label('phone_number')
+                    TextInput::make('phone_number')
+                        ->label(__('trans.form.phone_number'))
                         ->required()
                         ->minValue(9)
                         ->integer(),
                     Select::make('role')
+                        ->label(__('trans.form.role'))
                         ->options(
                             collect(Role::cases())
                                 ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
                                 ->toArray()
                         ),
-                    TextInput::make('password')->label('password')
+                    TextInput::make('password')
+                        ->label(__('password'))
                         ->required()
                         ->password(),
                 ]),
@@ -78,6 +85,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Split::make([
+                    //w tabeli nie da sie dac tlumaczen bo nie ma label
                     Textcolumn::make('first_name')
                         ->searchable()
                         ->alignCenter(),
@@ -103,17 +111,23 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make()->form([
                     Fieldset::make('Podstawowe informacje')
                         ->schema([
-                            TextInput::make('first_name')->label('first_name'), // Changed from 'name' to 'first_name'
-                            TextInput::make('last_name')->label('last_name'),
-                            TextInput::make('phone_number')->label('phone_number'),
-                            TextInput::make('email')->label('email'),
+                            TextInput::make('first_name')
+                                ->label(__('trans.form.first_name')),
+                            TextInput::make('last_name')
+                                ->label(__('trans.form.last_name')),
+                            TextInput::make('phone_number')
+                                ->label(__('trans.form.phone_number')),
+                            TextInput::make('email')
+                                ->label(__('trans.form.email')),
                             Select::make('role')
+                                ->label(__('trans.form.role
+                                '))
                                 ->options(
                                     collect(Role::cases())
                                         ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
                                         ->toArray()
                                 ),
-                            TextInput::make('password')->label('password'),
+                            TextInput::make('password')->label(__('trans.form.password')),
                         ])->columns(3),
                 ]),
                 Tables\Actions\DeleteAction::make(),

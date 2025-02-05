@@ -4,5 +4,14 @@ return [
         'users' => 'klienci',
         'visits' => 'zapisy',
     ],
-   // 'Hello!' => 'Witaj!',
+
+    'form' => [
+        'first_name' => 'Imie',
+        'last_name' => 'Nazwisko',
+        'email' => 'E-mail',
+        'phone_number' => 'Numer telefonu',
+        'password' => 'Hasło',
+        'role' => 'Rola',
+    ]
+
 ];
