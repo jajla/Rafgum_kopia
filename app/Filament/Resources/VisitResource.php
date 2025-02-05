@@ -32,25 +32,30 @@ class VisitResource extends Resource
     protected static ?string $model = Visit::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
     public static function getPluralLabel(): string
     {
         return __('trans.resources.visits'); // "Użytkownik"
     }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Select::make('user_id')
+                    ->label(__('trans.form.user_id'))
                     ->native(false)
                     ->options(User::query()
                         ->get()
                         ->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
                     ->required(),
                 DatePicker::make('date')
+                    ->label(__('trans.form.date'))
                     ->minDate(now()->subDays(1))
                     ->displayFormat('d F Y')
                     ->required(),
                 TimePicker::make('time')
+                    ->label(__('trans.form.time'))
                     ->native(false)
                     ->minutesStep(30)
                     ->seconds(false)
@@ -61,22 +66,19 @@ class VisitResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            //tutaj tez nie da sie tlumaczyc
             ->columns([
-
                 Split::make([
-                        TextColumn::make('user.last_name')
-                            ->label('User')
-                            ->searchable()
-                            ->alignCenter(),
-                        TextColumn::make('time')
-                            ->label('Time')
-                            ->alignCenter()
-                            ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
-                        TextColumn::make('date')
-                            ->label('Date')
-                            ->alignCenter()
-                            ->formatStateUsing(fn($state) => Carbon::parse($state)
-                                ->translatedFormat('j F l')),
+                    TextColumn::make('user.last_name')
+                        ->searchable()
+                        ->alignCenter(),
+                    TextColumn::make('time')
+                        ->alignCenter()
+                        ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
+                    TextColumn::make('date')
+                        ->alignCenter()
+                        ->formatStateUsing(fn($state) => Carbon::parse($state)
+                            ->translatedFormat('j F l')),
                 ])->from('sm')
             ])
             ->filters([
@@ -96,16 +98,19 @@ class VisitResource extends Resource
                                 ])
                                     ->schema([
                                         Select::make('user_id')
+                                            ->label(__('trans.form.user_id'))
                                             ->native(false)
                                             ->options(User::query()
                                                 ->get()
                                                 ->mapWithKeys(fn($user) => [$user->id => $user->last_name]))
                                             ->required(),
                                         DatePicker::make('date')
+                                            ->label(__('trans.form.date'))
                                             ->minDate(now()->subDays(1))
                                             ->displayFormat('d F Y')
                                             ->required(),
                                         TimePicker::make('time')
+                                            ->label(__('trans.form.time'))
                                             ->native(false)
                                             ->minutesStep(30)
                                             ->seconds(false)
