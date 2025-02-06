@@ -19,8 +19,8 @@ class VisitFactory extends Factory
     {
         return [
             'user_id'=>User::InRandomOrder()->first()->id,
-            'date'=> fake()->date(),
-            'time'=>fake()->time(),
+            'date'=> now()->toDateString(),
+            'time'=>now()->toTimeString(),
         ];
     }
 }

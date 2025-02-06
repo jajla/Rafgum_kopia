@@ -15,10 +15,8 @@ class UserWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('users' ,Visit::count())
-        ->chart([1,2,3,40,5,6,7,8,9,10])
-                ->description('sds')
-                ->color('success'),
+            Stat::make('users', User::count()),
+            Stat::make('visit', Visit::where('date', now()->toDateString())->count())
         ];
     }
 }
