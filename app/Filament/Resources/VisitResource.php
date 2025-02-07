@@ -66,6 +66,8 @@ class VisitResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginated(['20','30','40','all'])
+            ->defaultPaginationPageOption(30)
             //tutaj tez nie da sie tlumaczyc
             ->columns([
                 Split::make([

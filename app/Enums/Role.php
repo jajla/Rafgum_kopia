@@ -11,13 +11,7 @@ enum Role: string
     {
         return match ($this) {
             self::Admin => 'Administrator',
-            self::User => 'byle',
+            self::User => 'Użytkownik',
         };
     }
-
-    public function isAdmin(): bool
-    {
-        return $this->role === Role::Admin;
-    }
-
 }

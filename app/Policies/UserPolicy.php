@@ -37,7 +37,11 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -45,7 +49,11 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -53,7 +61,11 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

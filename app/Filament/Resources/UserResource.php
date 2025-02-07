@@ -81,6 +81,8 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->paginated(['20','30','40','all'])
+            ->defaultPaginationPageOption(30)
             ->columns([
                 Split::make([
                     //w tabeli nie da sie dac tlumaczen bo nie ma label
