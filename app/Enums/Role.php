@@ -14,4 +14,10 @@ enum Role: string
             self::User => 'byle',
         };
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === Role::Admin;
+    }
+
 }
