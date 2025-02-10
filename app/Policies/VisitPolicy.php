@@ -26,7 +26,11 @@ class VisitPolicy
      */
     public function view(User $user, Visit $visit): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -34,7 +38,11 @@ class VisitPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -42,7 +50,11 @@ class VisitPolicy
      */
     public function update(User $user, Visit $visit): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -50,7 +62,11 @@ class VisitPolicy
      */
     public function delete(User $user, Visit $visit): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -58,7 +74,11 @@ class VisitPolicy
      */
     public function restore(User $user, Visit $visit): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -66,6 +86,10 @@ class VisitPolicy
      */
     public function forceDelete(User $user, Visit $visit): bool
     {
-        return false;
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -78,6 +78,7 @@ class VisitResource extends Resource
                         ->alignCenter()
                         ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
                     TextColumn::make('date')
+                        ->minDate(now()->subDays(1))
                         ->alignCenter()
                         ->formatStateUsing(fn($state) => Carbon::parse($state)
                             ->translatedFormat('j F l')),
