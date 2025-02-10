@@ -120,8 +120,7 @@ class UserResource extends Resource
                             TextInput::make('email')
                                 ->label(__('trans.form.email')),
                             Select::make('role')
-                                ->label(__('trans.form.role
-                                '))
+                                ->label(__('trans.form.role'))
                                 ->options(
                                     collect(Role::cases())
                                         ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
