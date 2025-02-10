@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\services;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,6 +22,7 @@ class VisitFactory extends Factory
             'user_id'=>User::InRandomOrder()->first()->id,
             'date'=> now()->toDateString(),
             'time'=>now()->toTimeString(),
+            'service_type'=>fake()->RandomElement(services::cases()),
         ];
     }
 }

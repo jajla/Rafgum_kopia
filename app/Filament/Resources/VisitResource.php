@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Role;
+use App\Enums\Services;
 use App\Filament\Resources\VisitResource\Pages;
 use App\Filament\Resources\VisitResource\RelationManagers;
 use App\Models\User;
@@ -72,12 +74,15 @@ class VisitResource extends Resource
             //tutaj tez nie da sie tlumaczyc
             ->columns([
                 Split::make([
-                    TextColumn::make('user.last_name')
-                        ->searchable()
-                        ->alignCenter(),
                     TextColumn::make('time')
                         ->alignCenter()
                         ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
+                    TextColumn::make('user.last_name')
+                        ->searchable()
+                        ->alignCenter(),
+                    TextColumn::make('service_type')
+                        ->formatStateUsing(fn($state) => $state->getLabel())
+                        ->alignCenter(),
                     TextColumn::make('date')
                         ->alignCenter()
                         ->formatStateUsing(fn($state) => Carbon::parse($state)
@@ -85,10 +90,10 @@ class VisitResource extends Resource
                 ])->from('sm')
             ])
             ->filters([
-                 Tables\Filters\Filter::make(__('trans.form.today'))
-                     ->query(fn(Builder $query) => $query->whereDate('date', now()->toDateString()))
-                      ->default(),
-                Filter::make('te')
+                Tables\Filters\Filter::make(__('trans.form.today'))
+                    ->query(fn(Builder $query) => $query->whereDate('date', now()->toDateString()))
+                    ->default(),
+                Filter::make('date')
                     ->form([
                         DatePicker::make('date')
                     ])->query(function (Builder $query, array $data) {
@@ -96,8 +101,6 @@ class VisitResource extends Resource
                             $query->whereDate('date', $data['date']); // Filtruj tylko, jeśli data została wybrana
                         }
                     }),
-
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -107,8 +110,8 @@ class VisitResource extends Resource
                                 Grid::make([
                                     'sm' => 1,
                                     'md' => 2,
-                                    'lg' => 3,
-                                    'xl' => 3,
+                                    'lg' => 4,
+                                    'xl' => 4,
                                     '2xl' => 2,
                                 ])
                                     ->schema([
@@ -130,6 +133,13 @@ class VisitResource extends Resource
                                             ->minutesStep(30)
                                             ->seconds(false)
                                             ->required(),
+                                        Select::make('service_type')
+                                            ->label(__('trans.form.service_type'))
+                                            ->options(
+                                                collect(Services::cases())
+                                                    ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
+                                                    ->toArray()
+                                            )->required(),
                                     ]),
 
                             ]),

@@ -12,7 +12,7 @@ enum services: string
     case Wheel_balancing = "Wheel balancing";
 
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::Wheel_change => "Wymiana Kół",

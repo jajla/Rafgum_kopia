@@ -12,11 +12,11 @@ return [
         'phone_number' => 'Numer telefonu',
         'password' => 'Hasło',
         'role' => 'Rola',
-        'Role' => 'Rola',
         'user_id' => 'Klient',
         'time' => 'czas',
         'date' => 'data',
         'today'=>'dzis',
+        'service_type'=>'rodzaj uslugi',
     ]
 
 ];
