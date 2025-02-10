@@ -78,14 +78,15 @@ class VisitResource extends Resource
                         ->alignCenter()
                         ->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
                     TextColumn::make('date')
-                        ->minDate(now()->subDays(1))
                         ->alignCenter()
                         ->formatStateUsing(fn($state) => Carbon::parse($state)
                             ->translatedFormat('j F l')),
                 ])->from('sm')
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make(__('trans.form.today'))->query(fn (Builder $query) => $query->whereDate('date', now()->toDateString()))
+                    ->default(),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

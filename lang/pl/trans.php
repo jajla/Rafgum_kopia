@@ -16,6 +16,7 @@ return [
         'user_id' => 'Klient',
         'time' => 'czas',
         'date' => 'data',
+        'today'=>'dzis',
     ]
 
 ];
