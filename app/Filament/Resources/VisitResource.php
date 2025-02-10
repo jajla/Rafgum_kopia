@@ -23,6 +23,7 @@ use Filament\Tables;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -66,7 +67,7 @@ class VisitResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->paginated(['20','30','40','all'])
+            ->paginated(['20', '30', '40', 'all'])
             ->defaultPaginationPageOption(30)
             //tutaj tez nie da sie tlumaczyc
             ->columns([
@@ -84,8 +85,18 @@ class VisitResource extends Resource
                 ])->from('sm')
             ])
             ->filters([
-                Tables\Filters\Filter::make(__('trans.form.today'))->query(fn (Builder $query) => $query->whereDate('date', now()->toDateString()))
-                    ->default(),
+                 Tables\Filters\Filter::make(__('trans.form.today'))
+                     ->query(fn(Builder $query) => $query->whereDate('date', now()->toDateString()))
+                      ->default(),
+                Filter::make('te')
+                    ->form([
+                        DatePicker::make('date')
+                    ])->query(function (Builder $query, array $data) {
+                        if (!empty($data['date'])) { // Sprawdzenie, czy data została podana
+                            $query->whereDate('date', $data['date']); // Filtruj tylko, jeśli data została wybrana
+                        }
+                    }),
+
 
             ])
             ->actions([
