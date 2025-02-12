@@ -32,6 +32,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VisitResource extends Resource
 {
+    public static function canAccess(): bool
+    {
+        return auth()->user()->role === Role::Admin; // Sprawdzenie, czy użytkownik jest adminem
+    }
     protected static ?string $model = Visit::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
