@@ -3,17 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Enums\Role;
+use App\Enums\services;
 use App\Filament\Resources\UserVisitResource\Pages;
 use App\Filament\Resources\UserVisitResource\RelationManagers;
-use App\Models\UserVisit;
 use App\Models\Visit;
-use Filament\Forms;
+use App\UserVisitService;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class UserVisitResource extends Resource
 {
@@ -31,17 +35,36 @@ class UserVisitResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $dateFormat = 'Y-m-d';
         return $form
             ->schema([
-                //
+                DatePicker::make('date')
+                    ->minDate(now()->format($dateFormat))
+                    ->required()
+                    ->live(),
+                Radio::make('time')
+                    ->options(fn(Get $get) => (new UserVisitService())->getAvailableTimesForDate($get('date')))
+                    ->hidden(fn(Get $get) => !$get('date'))
+                    ->required()
+                    ->columnSpan(2),
+                Select::make('service_type')
+                    ->label(__('trans.form.service_type'))
+                    ->options(
+                        collect(Services::cases())
+                            ->mapWithKeys(fn($role) => [$role->value => $role->getLabel()])
+                            ->toArray()
+                    )->required(),
             ]);
+
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Visit::query()->where('user_id', Auth::id()))
             ->columns([
-                //
+                TextColumn::make('date'),
+                TextColumn::make('time'),
             ])
             ->filters([
                 //
@@ -72,3 +95,4 @@ class UserVisitResource extends Resource
         ];
     }
 }
+

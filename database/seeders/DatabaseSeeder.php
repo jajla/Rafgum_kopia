@@ -4,12 +4,11 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 use App\Models\User;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Visit;
-use Database\Factories\VisitFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +23,14 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '123456789',
             'role' => Role::Admin,
             'email' => 'k@gmail',
+            'password' => Hash::make('1234'),
+        ]);
+        User::factory()->create([
+            'first_name' => 'user', // Changed from 'name' to 'first_name'
+            'last_name' => 'testowy',
+            'phone_number' => '123456789',
+            'role' => Role::User,
+            'email' => 't@t',
             'password' => Hash::make('1234'),
         ]);
         User::factory(50)->create();
