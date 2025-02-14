@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum services: string
+enum Services: string
 {
     case Tire_change = "Tire change";
     case Wheel_change = "Wheel change";
