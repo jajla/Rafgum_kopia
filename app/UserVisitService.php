@@ -10,26 +10,25 @@ class UserVisitService
 {
     public function getAvailableTimesForDate(string $date): array
     {
-        $date                  = Carbon::parse($date);
-        $startPeriod           = $date->copy()->hour(9);
-        $endPeriod             = $date->copy()->hour(18);
-        $times                 = CarbonPeriod::create($startPeriod, '30 minutes', $endPeriod);
-        $availableReservations = [];
+        $date = Carbon::parse($date);
+        $startPeriod = $date->copy()->hour(9);
+        $endPeriod = $date->copy()->hour(18);
+        $times = CarbonPeriod::create($startPeriod, '30 minutes', $endPeriod);
 
         $reservations = Visit::whereDate('date', $date)
             ->pluck('time')
+            ->map(fn($time) => Carbon::parse($time)->format('H:i'))
             ->toArray();
 
-       $availableTimes = $times->filter(function ($time) use ($reservations) {
-            return ! in_array($time, $reservations);
-        })->toArray();
-
-        foreach ($availableTimes as $time) {
-            $key                         = $time->format('H:i');
-            $availableReservations[$key] = $time->format('H:i');
+        $availableReservations = [];
+        foreach ($times as $time) {
+            $formattedTime = $time->format('H:i');
+            if (!in_array($formattedTime, $reservations)) {
+                $availableReservations[$formattedTime] = $formattedTime;
+            }
         }
-       // return $availableReservations;
-    dump($times);
-        dd($reservations);
+
+        return $availableReservations;
+
     }
 }

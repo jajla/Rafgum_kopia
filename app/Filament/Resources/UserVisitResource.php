@@ -8,6 +8,7 @@ use App\Filament\Resources\UserVisitResource\Pages;
 use App\Filament\Resources\UserVisitResource\RelationManagers;
 use App\Models\Visit;
 use App\UserVisitService;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
@@ -40,13 +41,17 @@ class UserVisitResource extends Resource
             ->schema([
                 DatePicker::make('date')
                     ->minDate(now()->format($dateFormat))
+                    //->native(false)
                     ->required()
+                   //->displayFormat('d F Y')
                     ->live(),
-                Radio::make('time')
+                Select::make('time')
                     ->options(fn(Get $get) => (new UserVisitService())->getAvailableTimesForDate($get('date')))
                     ->hidden(fn(Get $get) => !$get('date'))
                     ->required()
-                    ->columnSpan(2),
+                    ->formatStateUsing(fn($state) => date('H:i', strtotime($state)))
+                    ->native(false),
+
                 Select::make('service_type')
                     ->label(__('trans.form.service_type'))
                     ->options(
@@ -63,8 +68,9 @@ class UserVisitResource extends Resource
         return $table
             ->query(Visit::query()->where('user_id', Auth::id()))
             ->columns([
-                TextColumn::make('date'),
-                TextColumn::make('time'),
+                TextColumn::make('date') ->formatStateUsing(fn($state) => Carbon::parse($state)
+                    ->translatedFormat('j F l')),
+                TextColumn::make('time')->formatStateUsing(fn($state) => date('H:i', strtotime($state))),
             ])
             ->filters([
                 //
