@@ -21,8 +21,16 @@ return [
             'label' => 'Email address',
         ],
 
-        'name' => [
+        'first_name' => [
             'label' => 'Name',
+        ],
+
+        'last_name' => [
+            'label' => 'Surname',
+        ],
+
+        'phone_number' => [
+            'label' => 'Phone number',
         ],
 
         'password' => [
