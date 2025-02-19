@@ -9,7 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateUserVisit extends CreateRecord
 {
     protected static string $resource = UserVisitResource::class;
-
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $date = Carbon::parse($data['date']);
