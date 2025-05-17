@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Role;
 use App\Models\Storage;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
@@ -13,7 +14,7 @@ class StoragePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +30,12 @@ class StoragePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -37,7 +43,12 @@ class StoragePolicy
      */
     public function update(User $user, Storage $storage): bool
     {
-        return false;
+
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -45,7 +56,12 @@ class StoragePolicy
      */
     public function delete(User $user, Storage $storage): bool
     {
-        return false;
+   
+        if (auth()->user()->role === Role::Admin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
