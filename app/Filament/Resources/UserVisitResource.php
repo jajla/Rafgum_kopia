@@ -27,12 +27,12 @@ class UserVisitResource extends Resource
         return auth()->user()->role === Role::User; // Sprawdzenie, czy użytkownik jest adminem
     }
 
-    protected static ?string $label = 'Customer';
-    protected static ?string $navigationLabel = 'Customers';
+    protected static ?string $label = 'Zapisy';
+    protected static ?string $navigationLabel = 'Zapisy';
     protected static ?string $slug = 'pending-orders';
     protected static ?string $model = Visit::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     public static function form(Form $form): Form
     {
