@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tire_size');
             $table->string('tire_type');
-            $table->integer('tire_owner');
+            $table->foreignId('tire_owner')->constrained('users');
         });
     }
 
