@@ -31,7 +31,10 @@ class UserVisitResource extends Resource
     protected static ?string $navigationLabel = 'Zapisy';
     protected static ?string $slug = 'pending-orders';
     protected static ?string $model = Visit::class;
-
+    public static function getPluralLabel(): string
+    {
+        return __('trans.resources.visits'); // "Użytkownik"
+    }
     protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     public static function form(Form $form): Form
