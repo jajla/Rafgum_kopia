@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class StorageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'tire_size' => '205/55/16',
+            'tire_type' => 'summer',
+            'tire_owner'=>User::InRandomOrder()->first()->id,
         ];
     }
 }

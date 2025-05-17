@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Role;
+use App\Models\Storage;
 use App\Models\User;
 use App\Models\Visit;
 use Illuminate\Database\Seeder;
@@ -35,5 +36,6 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory(50)->create();
         Visit::factory(50)->create();
+        Storage::factory(10)->create();
     }
 }

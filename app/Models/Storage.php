@@ -10,7 +10,7 @@ class Storage extends Model
     /** @use HasFactory<\Database\Factories\StorageFactory> */
     use HasFactory;
 
-
+    public $timestamps = false;
     protected $fillable = [
         'tire_size',
         'tire_owner',
