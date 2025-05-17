@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('storages', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('tire_size');
+            $table->string('tire_type');
+            $table->integer('tire_owner');
         });
     }
 
