@@ -9,4 +9,11 @@ class Storage extends Model
 {
     /** @use HasFactory<\Database\Factories\StorageFactory> */
     use HasFactory;
+
+
+    protected $fillable = [
+        'tire_size',
+        'tire_owner',
+    ];
+
 }
