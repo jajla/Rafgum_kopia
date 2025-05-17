@@ -56,7 +56,7 @@ class StoragePolicy
      */
     public function delete(User $user, Storage $storage): bool
     {
-   
+
         if (auth()->user()->role === Role::Admin) {
             return true;
         } else {

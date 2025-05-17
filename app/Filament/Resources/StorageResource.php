@@ -32,8 +32,9 @@ class StorageResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('tire_owner'),
+                TextColumn::make('tires.last_name'),
                 TextColumn::make('tire_size'),
+                TextColumn::make('tire_type'),
             ])
             ->filters([
                 //

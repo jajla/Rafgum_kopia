@@ -17,7 +17,7 @@ class Storage extends Model
     ];
     public function tires()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'tire_owner');
     }
 
 }
