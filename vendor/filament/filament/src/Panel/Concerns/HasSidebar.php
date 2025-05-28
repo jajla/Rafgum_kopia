@@ -6,11 +6,11 @@ use Closure;
 
 trait HasSidebar
 {
-    protected string $sidebarWidth = '20rem';
+    protected string $sidebarWidth = '14rem';
 
     protected string $collapsedSidebarWidth = '4.5rem';
 
-    protected bool | Closure $isSidebarCollapsibleOnDesktop = false;
+    protected bool | Closure $isSidebarCollapsibleOnDesktop = true;
 
     protected bool | Closure $isSidebarFullyCollapsibleOnDesktop = false;
 
