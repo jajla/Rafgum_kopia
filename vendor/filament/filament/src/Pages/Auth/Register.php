@@ -159,9 +159,7 @@ class Register extends SimplePage
             'form' => $this->form(
                 $this->makeForm()
                     ->schema([
-                        $this->getFirstNameFormComponent(),
-                        $this->getLastNameFormComponent(),
-                        $this->getPhoneNumberFormComponent(),
+                        $this->getNameFormComponent(),
                         $this->getEmailFormComponent(),
                         $this->getPasswordFormComponent(),
                         $this->getPasswordConfirmationFormComponent(),
@@ -171,33 +169,13 @@ class Register extends SimplePage
         ];
     }
 
-    protected function getFirstNameFormComponent(): Component
+    protected function getNameFormComponent(): Component
     {
-        return TextInput::make('first_name')
-            ->label(__('filament-panels::pages/auth/register.form.first_name.label'))
+        return TextInput::make('name')
+            ->label(__('filament-panels::pages/auth/register.form.name.label'))
             ->required()
-            ->alpha()
-            ->maxLength(15)
-            ->minLength(3)
+            ->maxLength(255)
             ->autofocus();
-    }
-
-
-   protected function getLastNameFormComponent(): Component {
-        return TextInput::make('last_name')
-            ->label(__('filament-panels::pages/auth/register.form.last_name.label'))
-            ->required()
-            ->alpha()
-            ->maxLength(50)
-            ->minLength(3);
-    }
-    protected function getPhoneNumberFormComponent(): Component
-    {
-        return TextInput::make('phone_number')
-            ->label(__('filament-panels::pages/auth/register.form.phone_number.label'))
-            ->required()
-            ->minValue(9)
-            ->integer();
     }
 
     protected function getEmailFormComponent(): Component
@@ -206,8 +184,7 @@ class Register extends SimplePage
             ->label(__('filament-panels::pages/auth/register.form.email.label'))
             ->email()
             ->required()
-            ->maxLength(100)
-            ->alphaNum()
+            ->maxLength(255)
             ->unique($this->getUserModel());
     }
 
@@ -218,10 +195,10 @@ class Register extends SimplePage
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
             ->required()
+            ->rule(Password::default())
             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
             ->same('passwordConfirmation')
-            ->alphaNum()
-            ->minValue(9);
+            ->validationAttribute(__('filament-panels::pages/auth/register.form.password.validation_attribute'));
     }
 
     protected function getPasswordConfirmationFormComponent(): Component
@@ -230,7 +207,8 @@ class Register extends SimplePage
             ->label(__('filament-panels::pages/auth/register.form.password_confirmation.label'))
             ->password()
             ->revealable(filament()->arePasswordsRevealable())
-            ->required();
+            ->required()
+            ->dehydrated(false);
     }
 
     public function loginAction(): Action

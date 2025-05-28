@@ -21,20 +21,13 @@ return [
             'label' => 'Adres e-mail',
         ],
 
-        'first_name' => [
-            'label' => 'imie',
-        ],
-
-        'last_name' => [
-            'label' => 'nazwisko',
-        ],
-
-        'phone_number'=>[
-            'label' => 'numer telefonu',
+        'name' => [
+            'label' => 'Nazwa',
         ],
 
         'password' => [
             'label' => 'Hasło',
+            'validation_attribute' => 'hasło',
         ],
 
         'password_confirmation' => [

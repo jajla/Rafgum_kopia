@@ -503,7 +503,7 @@ class FilamentManager
             return $user->getFilamentName();
         }
 
-        return $user->getAttributeValue('first_name');
+        return $user->getAttributeValue('name');
     }
 
     /**

@@ -1,5 +1,9 @@
 <?php
 
+use Opcodes\LogViewer\Enums\FolderSortingMethod;
+use Opcodes\LogViewer\Enums\SortingOrder;
+use Opcodes\LogViewer\Enums\Theme;
+
 return [
 
     /*
@@ -62,6 +66,16 @@ return [
     */
 
     'timezone' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Log Viewer datetime format.
+    |--------------------------------------------------------------------------
+    | The format used to display timestamps in the UI.
+    |
+    */
+
+    'datetime_format' => 'Y-m-d H:i:s',
 
     /*
     |--------------------------------------------------------------------------
@@ -231,4 +245,62 @@ return [
     'lazy_scan_chunk_size_in_mb' => 50,
 
     'strip_extracted_context' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Per page options
+    |--------------------------------------------------------------------------
+    | Define the available options for number of results per page
+    |
+    */
+
+    'per_page_options' => [10, 25, 50, 100, 250, 500],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default settings for Log Viewer
+    |--------------------------------------------------------------------------
+    | These settings determine the default behaviour of Log Viewer. Many of
+    | these can be persisted for the user in their browser's localStorage,
+    | if the `use_local_storage` option is set to true.
+    |
+    */
+
+    'defaults' => [
+
+        // Whether to use browser's localStorage to store user preferences.
+        // If true, user preferences saved in the browser will take precedence over the defaults below.
+        'use_local_storage' => true,
+
+        // Method to sort the folders. Other options: `Alphabetical`, `ModifiedTime`
+        'folder_sorting_method' => FolderSortingMethod::ModifiedTime,
+
+        // Order to sort the folders. Other options: `Ascending`, `Descending`
+        'folder_sorting_order' => SortingOrder::Descending,
+
+        // Order to sort the logs. Other options: `Ascending`, `Descending`
+        'log_sorting_order' => SortingOrder::Descending,
+
+        // Number of results per page. Must be one of the above `per_page_options` values
+        'per_page' => 25,
+
+        // Color scheme for the Log Viewer. Other options: `System`, `Light`, `Dark`
+        'theme' => Theme::System,
+
+        // Whether to enable `Shorter Stack Traces` option by default
+        'shorter_stack_traces' => false,
+
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Root folder prefix
+    |--------------------------------------------------------------------------
+    | The prefix for log files inside Laravel's `storage/logs` folder.
+    | Log Viewer does not show the full path to these files in the UI,
+    | but only the filename prefixed with this value.
+    |
+    */
+
+    'root_folder_prefix' => 'root',
 ];
