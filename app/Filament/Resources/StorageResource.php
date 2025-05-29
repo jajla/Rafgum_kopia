@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\StorageResource\Pages;
 use App\Filament\Resources\StorageResource\RelationManagers;
 use App\Models\Storage;
+use App\Models\Visit;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +14,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class StorageResource extends Resource
 {
+
     protected static ?string $model = Storage::class;
     public static function getPluralLabel(): string
     {
@@ -34,6 +37,7 @@ class StorageResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Storage::query()->where('tire_owner', Auth::id()))
             ->columns([
                 TextColumn::make('tires.last_name'),
                 TextColumn::make('tire_size'),
