@@ -26,6 +26,8 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('dasboard')
+            ->sidebarCollapsibleOnDesktop(true)
+            ->sidebarWidth('14rem')
             ->path('dasboard')
             ->registration()
             ->profile()
