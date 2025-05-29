@@ -17,7 +17,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class StorageResource extends Resource
 {
     protected static ?string $model = Storage::class;
-
+    public static function getPluralLabel(): string
+    {
+        return __('trans.resources.storages'); // "Użytkownik"
+    }
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
 
     public static function form(Form $form): Form

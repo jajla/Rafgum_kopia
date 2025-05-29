@@ -3,6 +3,7 @@ return [
     'resources' => [
         'users' => 'klienci',
         'visits' => 'zapisy',
+        'storages' => 'magazyn',
     ],
 
     'form' => [
