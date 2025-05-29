@@ -37,7 +37,7 @@ class StorageResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(Storage::query()->where('tire_owner', Auth::id()))
+             //->query(Storage::query()->where('tire_owner', Auth::id()))
             ->columns([
                 TextColumn::make('tires.last_name'),
                 TextColumn::make('tire_size'),
